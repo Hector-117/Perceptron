@@ -1,25 +1,79 @@
+/**
+ * @file    main.c (project: perceptron_base_program.dev in Dev-C++ IDE)
+ * @brief   Example program for implementing (training and testing) a perceptron
+ * 			neuron in c language.
+ *
+ * @details This example shows how to implement the machine learning model known as 
+ * 			the perceptron (the first model of an artificial neuron). The following
+ *			code is intended as a base program, which can be used by students to
+ *			develop their own custom perceptron library with functions to:
+ *
+ *			1. Create a model.
+ *			2. Initialize model.
+ *			3. Train model.
+ *			4. Test model.
+ *			5. Apply inference with the model.
+ *
+ *			The steps to accomplish these actions with code are described in a basic
+ *			way in the code below. Feel free to improve the code, apply your own ideas
+ *			and use any other resources that offers the c language (pointers, dynamic
+ *			memory, variable length arrays, file separation, etc.).
+ *
+ *			The objective of this activity is to show how ML and AI models are implemented
+ *			with a very similar workflow throughout most modern programs:
+ *
+ *			1. 	Create or get a dataset.
+ *			2. 	Extract training, testing and sometimes validation data from the dataset.
+ *			3.	Choose and customize a model.
+ *			4.	Train the model.
+ *			5.	Test and validate model.
+ *			6.	Apply the model (inference).
+ *
+ * @note	A perceptron neuron is a type of LDA model (Linear Discriminant Analysis), 
+ *			which is a statistical technique used in ML for classification tasks. In this
+ *			case, the perceptron is trained with some basic logic gates' truth tables, but
+ *			this same code can be used to train the perceptron for other purposes.
+ *
+ * @author  Abdiel Alejandro Rodríguez Coronado 	<https://github.com/alexrc14>.
+ * @author	Héctor Said Herrera Niño 				<https://github.com/Hector-117>.
+ * @date    2026-06-27 (last updated).
+ * @version 1.0
+ *
+ * @license None
+ */
+
+// **** Standard libraries used for this program:
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+
+// **** Custom libraries used for this program:
+#include "timing.h" // Used for timing processes.
+
+
+
 
 // **** Training data configuration:
 int dimensions			= 2;	// No. of values/elements in an input vector (a data sample).
 int training_selector	= 1;	// Datasets for truth tables: 1 == AND; 2 == OR.
 
 
+
+
+// **** Functions:
 int main(void){
 	
 	// **** Step 1: Creates dataset according to the selected truth table:
 	
 	int 	number_of_samples = (int) pow(2, dimensions); 	// Number of rows in the truth table.
-	float 	dataset[number_of_samples][dimensions];	
+	float 	dataset[number_of_samples][dimensions + 1];	
 		// dataset[<samples and their labels/classes>][<values>] 
 		// = truth_table[<rows or cases>][<columns or inputs and output values>].
 	
 	
 	// Fills input values of truth table (input vectors in the dataset):
-	for(int col = 0; col < number_of_samples; col++){
+	for(int col = 0; col < dimensions; col++){
 		
 		// Period to alternate input values (0 and 1):
 		int period = (int) pow(2, (dimensions - (col + 1)));
@@ -111,6 +165,11 @@ int main(void){
 	puts("Training LDA with LMS...\n");
 	
 	
+	// Creates timer and starts timing training execution:
+	timing_timer_t timer_1 = {0};
+	start_timing(&timer_1);
+	
+	
 	// Stop conditions for training:
 	float 	min_error	= (float) 0.01;	// Minimum acceptable error in each training sample.
 	int 	max_epochs	= 500;		// Maximum number of epochs/iterations during training.
@@ -132,7 +191,7 @@ int main(void){
 	srand((unsigned int) time(NULL)); // Seeds the random number generator with current time.
 	
 	for(int i = 0; i <= dimensions; i++){
-		w[i] = (((float)rand()) / ((float)RAND_MAX));
+		w[i] = ((float)rand()) / ((float)RAND_MAX);
 		printf("%.3f \t", w[i]);
 	}
 	puts("\n");
@@ -184,12 +243,16 @@ int main(void){
 	for(int i = 0; i <= dimensions; i++)
 		printf("%.3f \t", w[i]);
 	
+	// Stops timing and prints how much time training took.
+	stop_timing(&timer_1);
+	printf("\n\nTraining took %.6lf seconds.\n\n", get_elapsed_time_in_seconds(&timer_1));
+	
 	
 	
 	
 	// **** Step 4: Testing:
 	
-	puts("________________________________________________________\n");
+	puts("\n________________________________________________________\n");
 	puts("Running tests...\n");
 	
 	int out[number_of_samples];
