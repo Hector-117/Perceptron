@@ -12,61 +12,14 @@
 #include "esp_timer.h"
 
 // Custom libraries:
-#include "HAL.h"
+#include "HAL.hpp"
+#include "BSP.hpp"
 
 
 
 
 /* ******************************************************************** */
 /* ********************** FUNCTIONS' DEFINITIONS ********************** */
-
-// **** Functions for GPIO function validation:
-
-// GPIOs configured as inputs:
-
-bool is_valid_digital_input(uint8_t pin){
-    if(!((pin >= 0 && pin <= 19)  ||
-	    (pin >= 21 	&& pin <= 23) ||
-	    (pin >= 25 	&& pin <= 27) ||
-	    (pin >= 32 	&& pin <= 33) ||
-	    (pin >= 32 	&& pin <= 39))){
-        
-        return false;
-    }
-    return true;
-}
-
-bool is_valid_adc_input(uint8_t pin){
-    if(!((pin == 2 || pin == 4)     ||
-        (pin >= 12  && pin <= 15)   ||
-	    (pin >= 25 	&& pin <= 27)   ||
-	    (pin >= 32 	&& pin <= 36)   ||
-	    (pin == 39))){
-        
-        return false;
-    }
-    return true;
-}
-
-// GPIOs configured as outputs:
-
-bool is_valid_digital_output(uint8_t pin){
-    if(!((pin >= 0 && pin <= 19) ||
-	    (pin >= 21 	&& pin <= 23) ||
-	    (pin >= 25 	&& pin <= 27) ||
-	    (pin >= 32 	&& pin <= 33))){
-        
-        return false;
-    }
-    return true;
-}
-
-bool is_valid_pwm_output(uint8_t pin){
-    return is_valid_digital_output(pin);
-}
-
-
-
 
 // **** Functions for button object:
 
