@@ -1,5 +1,5 @@
-#ifndef HAL_H
-#define HAL_H
+#ifndef HAL_HPP
+#define HAL_HPP
 
 #ifdef __cplusplus
 extern "C" {
@@ -104,19 +104,6 @@ extern uint8_t global_adc_resolution;
 /* ******************************************************************** */
 /* ********************** FUNCTIONS' PROTOTYPES *********************** */
 
-// **** Functions for GPIO function validation:
-
-// GPIOs configured as inputs:
-bool is_valid_digital_input(uint8_t pin);
-bool is_valid_adc_input(uint8_t pin);
-
-// GPIOs configured as outputs:
-bool is_valid_digital_output(uint8_t pin);
-bool is_valid_pwm_output(uint8_t pin);
-
-
-
-
 // **** Functions for button object:
 
 // Function to configure GPIO as button:
@@ -184,4 +171,4 @@ void hal_adc_set_channel_attenuation(
 }
 #endif
 
-#endif /* HAL_H */
+#endif /* HAL_HPP */

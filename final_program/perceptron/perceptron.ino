@@ -24,9 +24,9 @@
 // Custom libraries:
 #include "timing.h"
 #include "perceptron_library.h"
-#include "HAL.h"
-#include "BSP.h"
+#include "HAL.hpp"
 #include "PRINT.h"
+#include "BSP.hpp"
 
 
 
@@ -53,24 +53,24 @@
 /* ************************ PIN CONFIGURATION ************************* */
 
 // LED that shows system output in binary: {0, 1}.
-#define LED_OUTPUT_PIN	4	// System output LED.
+#define LED_OUTPUT_PIN	13	// System output LED.
 
 // LED that shows system mode: {OFF, RUN}.
-#define LED_MODE_PIN	2	  // System mode LED.
+//#define LED_MODE_PIN	9	  // System mode LED.
 
 // Button that changes system mode:
-#define BUTTON_PIN		18	// System mode button.
+#define BUTTON_PIN		1	// System mode button.
 
 
 // System inputs' pins (sensors/potentiometers):
 #define NUMBER_OF_POTS 5
 #define POTS_THRESHOLD 2048
 
-#define POT_1_PIN 36
-#define POT_2_PIN 39
-#define POT_3_PIN 34
-#define POT_4_PIN 35
-#define POT_5_PIN 32
+#define POT_1_PIN 2
+#define POT_2_PIN 4
+#define POT_3_PIN 5
+#define POT_4_PIN 6
+#define POT_5_PIN 7
 
 
 
@@ -327,7 +327,10 @@ void loop(){
         pots_values[i] = 1;
       else
         pots_values[i] = 0;
+
+      printf("%d\t", hal_adc_read(&pots[i]));
     }
+    printf("\n");
     
     output = perceptron_predict(&model, &pots_values[0], dimensions);
     

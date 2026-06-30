@@ -1,9 +1,5 @@
-#ifndef BSP_H
-#define BSP_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifndef BSP_HPP
+#define BSP_HPP
 
 
 /* ******************************************************************** */
@@ -13,9 +9,7 @@ extern "C" {
 #include <Arduino.h>
 #include <stdint.h>
 #include <stdbool.h>
-
-// Custom libraries:
-#include "HAL.h"
+#include <Adafruit_NeoPixel.h>
 
 
 
@@ -23,7 +17,9 @@ extern "C" {
 /* ******************************************************************** */
 /* ********************** BOARD COMPONENTS' PINS ********************** */
 
-#define LED_BUILTIN_PIN 2
+#define LED_BUILTIN_PIN     48
+#define MAX_LED_BRIGHTNESS  80
+#define NUMPIXELS           1 
 
 
 
@@ -31,13 +27,26 @@ extern "C" {
 /* ******************************************************************** */
 /* ******************* GLOBAL VARIABLES AND OBJECTS ******************* */
 
-extern led_t led_builtin;
-
+extern uint8_t led_builtin_state[3];
 
 
 
 /* ******************************************************************** */
 /* ********************** FUNCTIONS' PROTOTYPES *********************** */
+
+
+// **** Functions for GPIO function validation:
+
+// GPIOs configured as inputs:
+bool is_valid_digital_input(uint8_t pin);
+bool is_valid_adc_input(uint8_t pin);
+
+// GPIOs configured as outputs:
+bool is_valid_digital_output(uint8_t pin);
+bool is_valid_pwm_output(uint8_t pin);
+
+
+// **** Functions for builtin hardware components:
 
 void bsp_init(void);
 
@@ -45,13 +54,7 @@ void bsp_turn_on_builtin_led(void);
 void bsp_turn_off_builtin_led(void);
 void bsp_toggle_builtin_led(void);
 
-bool bsp_get_builtin_led_state(void);
-void bsp_set_builtin_led_state(uint8_t state);
+void bsp_set_rgb_color(uint8_t r, uint8_t g, uint8_t b);
 
 
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* BSP_H */
+#endif /* BSP_HPP */
